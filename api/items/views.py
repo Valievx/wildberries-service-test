@@ -20,13 +20,16 @@ class ProductsAPIView(APIView):
             )
 
         try:
+            price_from = float(price_from) if price_from else None
+            price_to = float(price_to) if price_to else None
+
             total, products = WildberriesParser(query).get_products(
                 color=color,
                 price_from=price_from,
                 price_to=price_to
             )
         except Exception as e:
-            return Response({'error': f'{str(e)}'})
+            return Response({'error': str(e)})
 
         return Response({
             "total": total,
